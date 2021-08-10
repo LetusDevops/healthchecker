@@ -5,6 +5,7 @@ import redis
 from processors import http_processor
 import datetime
 from flask import current_app
+from flask import render_template
 
 def create_app(test_config=None):
     # create and configure the app
@@ -54,4 +55,8 @@ def create_app(test_config=None):
                     r.set("health_"+i["name"], "failed")
                 r.set("last_updated_" + i["name"], dt_string)
         print('Done!')
+
+    @app.route('/')
+    def landing():
+        return render_template('landing.html')
     return app
