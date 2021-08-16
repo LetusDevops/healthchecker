@@ -19,14 +19,7 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/status')
     def get_all_status():
-        r = redis.StrictRedis(host="localhost")
-        list = []
-        for conf in app.config["HEALTHCONFIGS"]:
-            list.append(conf["name"])
-        health_list = []
-        for i in list:
-            data = r.get("health_"+i)
-            health_list.append({i: data.decode("utf-8"), "last_update": r.get("last_updated_"+i).decode("utf-8")})
+        health_list = get_all_data()
         print(health_list)
         return jsonify(health_list)
 
@@ -58,5 +51,18 @@ def create_app(test_config=None):
 
     @app.route('/')
     def landing():
-        return render_template('landing.html')
+        data= get_all_data()
+        return render_template('landing.html', data=data)
+
+    def get_all_data():
+        r = redis.StrictRedis(host="localhost")
+        list = []
+        for conf in app.config["HEALTHCONFIGS"]:
+            list.append(conf["name"])
+        health_list = []
+        for i in list:
+            data = r.get("health_" + i)
+            health_list.append({"name":i,"status": data.decode("utf-8"), "last_update": r.get("last_updated_" + i).decode("utf-8")})
+        return health_list
+
     return app

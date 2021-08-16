@@ -1,10 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <title>HealthChecker By letusdevops</title>
 </head>
 <body>
-Hello from letusdevops
+<div class="heading">HealthChecker By Let Us DevOps</div>
+<hr>
+<div class="row">
+{% for item in data %}
+    <div class="{% if item['status'] != 'ok'%} error {% endif%} col-md-2 status ok">
+        <font size="5" color="white">{{ item["name"] }}</br></font>
+        Status: {{ item["status"] }}</br>
+        <font size="2">Last Update: {{ item["last_update"] }}</font>
+    </div>
+{% endfor %}
+</div>
+<small class="smallinfo">Developed in love with python by <a href="www.letusdevops.com">Let Us Devops</a> :)</small>
+
 </body>
+<style>
+    .status{
+      background: #6bbe25;
+      margin: 20px;
+      padding:20px;
+      border-radius: 10px;
+      border: 2 px solid grey;
+    }
+
+    .error{
+        background: #Be2528;
+    }
+
+    .smallinfo{
+        position: absolute;
+        bottom:10px;
+        left:  42%;
+    }
+
+    .heading{
+        text-align: center;
+        padding: 10px;
+        font-size: 26px;
+        font-weight: 400;
+    }
+</style>
 </html>
